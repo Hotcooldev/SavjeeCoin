@@ -36,7 +36,20 @@ class Transaction {
    *
    * @param {string} signingKey
    */
-  signTransaction(signingKey) {
+   signTransaction(signingKey) {
+    // You can only send a transaction from the wallet that is linked to your
+    // key. So here we check if the fromAddress matches your publicKey
+    if (signingKey.getPublic('hex') !== this.fromAddress) {
+      throw new Error('You cannot sign transactions for other wallets!');
+    }
+
+    // Calculate the hash of this transaction, sign it with the key
+    // and store it inside the transaction object
+    const hashTx = this.calculateHash();
+    const sig = signingKey.sign(hashTx, 'base64');
+
+    this.signature = sig.toDER('hex');
+  }signTransaction(signingKey) {
     // You can only send a transaction from the wallet that is linked to your
     // key. So here we check if the fromAddress matches your publicKey
     if (signingKey.getPublic('hex') !== this.fromAddress) {
