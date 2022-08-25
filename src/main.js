@@ -44,3 +44,35 @@ console.log(
 // Check if the chain is valid
 console.log();
 console.log('Blockchain valid?', savjeeCoin.isChainValid() ? 'Yes' : 'No');
+
+
+
+
+
+
+
+
+
+
+
+savjeeCoin.minePendingTransactions(myWalletAddress);
+
+// Create second transaction
+const tx2 = new Transaction(myWalletAddress, 'address1', 50);
+tx2.signTransaction(myKey);
+savjeeCoin.addTransaction(tx2);
+
+// Mine block
+savjeeCoin.minePendingTransactions(myWalletAddress);
+
+console.log();
+console.log(
+  `Balance of xavier is ${savjeeCoin.getBalanceOfAddress(myWalletAddress)}`
+);
+
+// Uncomment this line if you want to test tampering with the chain
+// savjeeCoin.chain[1].transactions[0].amount = 10;
+
+// Check if the chain is valid
+console.log();
+console.log('Blockchain valid?', savjeeCoin.isChainValid() ? 'Yes' : 'No');
